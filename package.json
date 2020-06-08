@@ -1,16 +1,15 @@
 {
-  "name": "milktea",
+  "name": "rc-state-hook",
   "version": "0.1.0",
-  "description": "lowpare is a js object shallow compare tool.",
+  "description": "",
   "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/caperso/milktea.git"
   },
   "keywords": [
-    "js",
-    "object equal",
-    "compare"
+    "react context",
+    "state hooks"
   ],
   "author": "caperso",
   "license": "ISC",
