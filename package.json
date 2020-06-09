@@ -18,8 +18,6 @@
   "homepage": "https://github.com/caperso/milktea#readme",
   "devDependencies": {
     "@types/react": "^16.9.35",
-    "gulp": "^4.0.2",
-    "lowpare": "0.1.4",
     "react": "^16.13.1"
   },
   "scripts": {
@@ -28,5 +26,7 @@
   "excludes": [
     "example"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "lowpare": "0.1.7"
+  }
 }
