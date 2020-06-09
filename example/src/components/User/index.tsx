@@ -2,11 +2,9 @@ import React from "react";
 import useStoreContext from "../../store";
 
 export const User = () => {
-  const [store, setters] = useStoreContext();
+  const [,setters] = useStoreContext();
 
   console.log(setters);
-  setters.setCompanyName('wwwwww')
-  
 
-  return <div>user here</div>;
+  return <div onClick={() => setters.setCompanyName("wwwwww")}>click here</div>;
 };

@@ -1,14 +1,16 @@
 import React from "react";
-import useStoreContext from "./store";
-import { User } from "./components/User";
 import { Company } from "./components/Company";
+import { User } from "./components/User";
+import useStoreContext from "./store";
 
 function App() {
   return (
     <div className="App">
       <useStoreContext.Provider>
-        <User></User>
-        <Company></Company>
+        <div>
+          <User></User>
+          <Company></Company>
+        </div>
       </useStoreContext.Provider>
     </div>
   );
