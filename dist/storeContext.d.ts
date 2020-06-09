@@ -3,7 +3,7 @@ declare type ObjectProp<T> = {
 };
 declare type Actions = ObjectProp<string>;
 /**
- *
+ * Generate a React.Context object with it's valueHook (simply a store and a setter) to manage state in this context
  * @export
  * @template T
  * @param {ObjectProp<any>} initValue

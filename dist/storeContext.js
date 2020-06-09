@@ -11,13 +11,14 @@ var __assign = (this && this.__assign) || function () {
 };
 import { lowSame } from "lowpare";
 import React, { useMemo, useState } from "react";
-function createStore(initValue, actions) {
+/**
+ * createStoreAndSetters Create single store and the setters object;
+ * @param {ObjectProp<any>} initValue Initial value object like {user:{id:1,name:'Sam'},tag:"foo"}
+ * @param {Actions} actions actions {actionName: targetPropName} like {setTag:'tag',setFoo:12}
+ * @returns {[ObjectProp,ObjectProp]} [store, setters]
+ */
+function createStoreAndSetters(initValue, actions) {
     var _a = useState(initValue), store = _a[0], setStore = _a[1];
-    var setterNameGenerator = function (name) {
-        return name.length >= 1
-            ? "set" + name[0].toUpperCase() + name.substr(1, name.length)
-            : name;
-    };
     function setterGenerator(partName) {
         function setter(value) {
             setStore(function (store) {
@@ -37,15 +38,14 @@ function createStore(initValue, actions) {
     for (var key in actions) {
         if (actions.hasOwnProperty(key)) {
             var partName = actions[key];
-            setter[setterNameGenerator(key)] = setterGenerator(partName);
+            setter[key] = setterGenerator(partName);
         }
     }
     var setters = useMemo(function () { return setter; }, [setter]);
     return [store, setters];
 }
-// function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
 /**
- *
+ * Generate a React.Context object with it's valueHook (simply a store and a setter) to manage state in this context
  * @export
  * @template T
  * @param {ObjectProp<any>} initValue
@@ -61,7 +61,7 @@ export default function (initValue, actions) {
         }
         return content;
     };
-    var Provider = function (props) { return (React.createElement(Context.Provider, { value: createStore(initValue, actions) }, props.children)); };
+    var Provider = function (props) { return (React.createElement(Context.Provider, { value: createStoreAndSetters(initValue, actions) }, props.children)); };
     ContextWrap.Provider = Provider;
     return ContextWrap;
 }

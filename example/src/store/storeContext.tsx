@@ -4,17 +4,18 @@ import React, { ProviderProps, useMemo, useState } from "react";
 type ObjectProp<T> = { [name: string]: T };
 type Actions = ObjectProp<string>;
 
-function createStore(initValue: ObjectProp<any>, actions: Actions) {
+/**
+ * createStoreAndSetters Create single store and the setters object;
+ * @param {ObjectProp<any>} initValue Initial value object like {user:{id:1,name:'Sam'},tag:"foo"}
+ * @param {Actions} actions actions {actionName: targetPropName} like {setTag:'tag',setFoo:12}
+ * @returns {[ObjectProp,ObjectProp]} [store, setters]
+ */
+function createStoreAndSetters(initValue: ObjectProp<any>, actions: Actions) {
   const [store, setStore] = useState(initValue);
-
-  const setterNameGenerator = (name: string): string =>
-    name.length >= 1
-      ? `set${name[0].toUpperCase()}${name.substr(1, name.length)}`
-      : name;
 
   function setterGenerator(partName: string) {
     function setter<T>(value: T) {
-      setStore((store:any) =>
+      setStore((store: ObjectProp<any>) =>
         lowSame<T>(store[partName], value)
           ? store
           : update(store, partName, value)
@@ -34,7 +35,7 @@ function createStore(initValue: ObjectProp<any>, actions: Actions) {
   for (const key in actions) {
     if (actions.hasOwnProperty(key)) {
       const partName = actions[key];
-      setter[setterNameGenerator(key)] = setterGenerator(partName);
+      setter[key] = setterGenerator(partName);
     }
   }
 
@@ -43,9 +44,8 @@ function createStore(initValue: ObjectProp<any>, actions: Actions) {
   return [store, setters] as const;
 }
 
-// function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
 /**
- *
+ * Generate a React.Context object with it's valueHook (simply a store and a setter) to manage state in this context
  * @export
  * @template T
  * @param {ObjectProp<any>} initValue
@@ -63,7 +63,7 @@ export default function <T>(initValue: ObjectProp<any>, actions: Actions): any {
   };
 
   const Provider = (props: ProviderProps<T>) => (
-    <Context.Provider value={createStore(initValue, actions)}>
+    <Context.Provider value={createStoreAndSetters(initValue, actions)}>
       {props.children}
     </Context.Provider>
   );

@@ -6,7 +6,9 @@
     "strict": true,
     "jsx": "react",
     "outDir": "dist",
-    "declaration": true
+    "declaration": true,
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": ["example", "dist"]
+  "include": ["src"],
+  "exclude": ["example", "dist", "node_modules"]
 }
