@@ -71,3 +71,4 @@ export default function <T>(initValue: ObjectProp<any>, actions: Actions): any {
   ContextWrap.Provider = Provider;
   return ContextWrap;
 }
+
