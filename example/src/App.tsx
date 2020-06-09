@@ -1,23 +1,17 @@
-import React, { useRef } from "react";
-import storeContext from "../../index";
-
-const initValue = { user: { name: "", age: -1 }, companyName: "" };
-const actions = {user:'user',companyName:'company'}
-
+import React from "react";
+import useStoreContext from "./store";
+import { User } from "./components/User";
+import { Company } from "./components/Company";
 
 function App() {
-  const Context = storeContext(initValue,actions);
-
-  const context = useRef()
-  console.log(context.current);
-  
-
-  return <div className="App">
-    <Context.Provider ref={context}>
-      
-    </Context.Provider>
-
-  </div>;
+  return (
+    <div className="App">
+      <useStoreContext.Provider>
+        <User></User>
+        <Company></Company>
+      </useStoreContext.Provider>
+    </div>
+  );
 }
 
 export default App;

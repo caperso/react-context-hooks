@@ -42,12 +42,15 @@ function useStore(initValue: ObjectProp<any>, actions: Actions) {
     }
   }
 
-  const setters = useMemo(() => setter, []);
+  const setters = useMemo(() => setter, [setter]);
 
   return [store, setters] as const;
 }
 
-export default function createContextHooks<T>(initValue:ObjectProp<any>, actions:Actions) {
+
+// function useContext<T>(context: Context<T>/*, (not public API) observedBits?: number|boolean */): T;
+
+export default function createContextHooks<T>(initValue:ObjectProp<any>, actions:Actions):any {
   let Context = React.createContext(initValue);
   const Provider = (props:ProviderProps<T>) => (
     <Context.Provider value={useStore(initValue, actions)}>
@@ -65,3 +68,22 @@ export default function createContextHooks<T>(initValue:ObjectProp<any>, actions
   ContextWrap.Provider = Provider;
   return ContextWrap;
 }
+
+// function create<P, R>(useValue: (props: P) => R, displayName?: string) {
+//   let Context = React.createContext<R | null>(null);
+//   const Provider: React.FC<P> = (p: React.PropsWithChildren<P>) => (
+//     <Context.Provider value={useValue(p)}>{p.children}</Context.Provider>
+//   );
+
+//   const useStateController = () => {
+//     let v = React.useContext(Context);
+//     if (v) {
+//       return v as R;
+//     }
+//     throw new Error(`Missing <${useStateController.displayName}.Provider>`);
+//   };
+
+//   useStateController.Provider = Provider;
+//   useStateController.displayName = displayName || "useStateController";
+//   return useStateController;
+// }
